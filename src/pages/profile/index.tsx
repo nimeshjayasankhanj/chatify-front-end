@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { userDetails } from "src/service/user-details";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootStore } from "src/store";
-import { Loader } from "src/components/molecules";
+import { Error, Loader } from "src/components/molecules";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -32,6 +32,10 @@ const Profile = () => {
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   const login = async (data: LoginDTO) => {
-    return axios.post(`http://localhost:8000/auth/login`, data);
+    return axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data);
   };
   const { mutate, isLoading } = useMutation(login, {
     onError: (error: OnError) => {

@@ -5,12 +5,11 @@ import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Loader } from "src/components/molecules";
+import { Error, Loader } from "src/components/molecules";
 import EditProfileForm from "src/components/organisms/edit-profile";
 import { ErrorResponse, OnError } from "src/dto/common.dto";
-import { EditProfileDTO, SignUpDTO } from "src/dto/user.dto";
+import { EditProfileDTO } from "src/dto/user.dto";
 import { userDetails } from "src/service/user-details";
-import SignUpSchema from "src/shema/sign-up";
 import EditProfileSchema from "src/shema/update-profile";
 import { AppDispatch, RootStore } from "src/store";
 import { BackendValidation } from "src/utils/backend-validations";
@@ -82,7 +81,10 @@ const EditProfile = () => {
   };
 
   const editProfile = async (data: EditProfileDTO) => {
-    return axios.post(`http://localhost:8000/user/edit-profile`, data);
+    return axios.post(
+      `${process.env.REACT_APP_API_URL}/user/edit-profile`,
+      data
+    );
   };
   const { mutate, isLoading } = useMutation(editProfile, {
     onError: (error: OnError) => {
@@ -103,6 +105,10 @@ const EditProfile = () => {
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (isError) {
+    return <Error />;
   }
   return (
     <>

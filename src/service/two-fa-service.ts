@@ -7,7 +7,7 @@ export const verifyTwoFACode = createAsyncThunk(
   async (data: TwoFAData, thunkApi) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/auth/verify-two-fa",
+        `${process.env.REACT_APP_API_URL}/auth/verify-two-fa`,
         data
       );
       return response.data;

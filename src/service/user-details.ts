@@ -6,7 +6,7 @@ export const userDetails = createAsyncThunk(
   async (id: string | undefined, thunkApi) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/user/profile-details`
+        `${process.env.REACT_APP_API_URL}/user/profile-details`
       );
       return response.data;
     } catch (error) {

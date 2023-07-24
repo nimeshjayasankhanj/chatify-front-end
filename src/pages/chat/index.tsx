@@ -1,9 +1,8 @@
 import { Chip, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootStore } from "src/store";
-import { supportUsers } from "src/service/support-users";
 import { Empty, Loader } from "src/components/molecules";
 import { Button, Card, InputBox } from "src/components/atoms";
 import { useForm } from "react-hook-form";
@@ -13,13 +12,13 @@ import axios from "src/utils/axios";
 import { addNewMessage } from "src/store/slices/chat-messages-slice";
 import { useMutation } from "react-query";
 import { chatMessages } from "src/service/chat-messages";
+import { Error } from "src/components/molecules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChatSchema from "src/shema/chat";
-const socket = io("http://localhost:8000"); // Replace with your backend URL
+const socket = io(process.env.REACT_APP_API_URL as string);
 
 const Chat = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [messages, setMessages] = useState<any>([]);
   const { id } = useParams();
 
   const {
@@ -35,7 +34,10 @@ const Chat = () => {
   });
 
   const saveMessage = async (data: any) => {
-    return axios.post(`http://localhost:8000/chat/save-message`, data);
+    return axios.post(
+      `${process.env.REACT_APP_API_URL}/chat/save-message`,
+      data
+    );
   };
   const { mutate } = useMutation(saveMessage, {});
 
@@ -71,6 +73,15 @@ const Chat = () => {
   if (isLoading) {
     return <Loader />;
   }
+
+  if (data.length === 0 && isSuccess) {
+    return <Empty />;
+  }
+
+  if (isError) {
+    return <Error />;
+  }
+
   return (
     <Grid container item>
       <Grid md={3} sm={12} xs={12}></Grid>

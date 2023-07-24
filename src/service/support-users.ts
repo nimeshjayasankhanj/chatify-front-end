@@ -6,7 +6,7 @@ export const supportUsers = createAsyncThunk(
   async (thunkApi) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/user/support-agent-lists"
+        `${process.env.REACT_APP_API_URL}/user/support-agent-lists`
       );
       return response.data;
     } catch (error) {

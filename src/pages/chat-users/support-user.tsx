@@ -7,13 +7,9 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ImageIcon from "@mui/icons-material/Image";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "react-query";
 import { AppDispatch, RootStore } from "src/store";
-import { supportUsers } from "src/service/support-users";
-import { Empty, Loader } from "src/components/molecules";
+import { Empty, Error, Loader } from "src/components/molecules";
 import { useNavigate } from "react-router-dom";
-import axios from "src/utils/axios";
-import { OnError } from "src/dto/common.dto";
 import { customerLists } from "src/service/customer-lists";
 
 const ChatUsers = () => {
@@ -37,6 +33,14 @@ const ChatUsers = () => {
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (data.length === 0 && isSuccess) {
+    return <Empty />;
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

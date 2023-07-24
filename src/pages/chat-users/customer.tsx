@@ -1,5 +1,5 @@
 import { Card, Grid, ListItemButton } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -14,7 +14,6 @@ import { Empty, Loader } from "src/components/molecules";
 import { useNavigate } from "react-router-dom";
 import axios from "src/utils/axios";
 import { OnError } from "src/dto/common.dto";
-import { customerLists } from "src/service/customer-lists";
 
 const ChatUsers = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +36,7 @@ const ChatUsers = () => {
   };
 
   const initializeChat = async (id: string) => {
-    return axios.post(`http://localhost:8000/chat/initialize-chat`, {
+    return axios.post(`${process.env.REACT_APP_API_URL}/chat/initialize-chat`, {
       id: id,
     });
   };

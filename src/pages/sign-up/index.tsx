@@ -54,7 +54,7 @@ const SignUp = () => {
   };
 
   const signUp = async (data: SignUpDTO) => {
-    return axios.post(`http://localhost:8000/auth/store`, data);
+    return axios.post(`${process.env.REACT_APP_API_URL}/auth/store`, data);
   };
   const { mutate, isLoading } = useMutation(signUp, {
     onError: (error: OnError) => {
